@@ -20,5 +20,8 @@ export default function Home({ posts }: { posts: any[] }) {
 
 export async function getStaticProps() {
   const posts = await fetchEntries();
-  return { props: { posts } };
+  return { 
+    props: { posts },
+    revalidate: 30, // Regenerate the page every 30 seconds if there's a request
+  };
 }
