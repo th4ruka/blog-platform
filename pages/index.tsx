@@ -1,17 +1,16 @@
+import { fetchEntries } from '../lib/contentful';
 import Link from 'next/link';
-import { getAllPosts } from '../lib/posts';
 
 export default function Home({ posts }: { posts: any[] }) {
   return (
     <div className="prose mx-auto">
-      <h1>Welcome to My Blog</h1>
+      <h1>Blog</h1>
       <ul>
         {posts.map((post) => (
-          <li key={post.slug}>
-            <Link href={`/posts/${post.slug}`}>
-              {post.title} 
+          <li key={post.sys.id}>
+            <Link href={`/posts/${post.fields.slug}`}>
+              {post.fields.title}
             </Link>
-            : {post.date}
           </li>
         ))}
       </ul>
@@ -20,8 +19,6 @@ export default function Home({ posts }: { posts: any[] }) {
 }
 
 export async function getStaticProps() {
-  const posts = getAllPosts();
-  return {
-    props: { posts },
-  };
+  const posts = await fetchEntries();
+  return { props: { posts } };
 }
