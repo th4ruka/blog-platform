@@ -23,5 +23,8 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: { params: { slug: string } }) {
   const post = await fetchEntry(params.slug);
-  return { props: { post } };
+  return { 
+    props: { post },
+    revalidate: 30, // Regenerate the page every 30 seconds if there's a request
+    };
 }
